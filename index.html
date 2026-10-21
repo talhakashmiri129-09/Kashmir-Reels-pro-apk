@@ -203,22 +203,41 @@
         }
 
         function submitAuth() {
-            let email = document.getElementById('user-email').value;
-            if(!email) { alert('Please enter email or phone!'); return; }
-            loggedUser = "@" + email.split('@')[0];
+            let emailField = document.getElementById('user-email');
+            let email = emailField ? emailField.value : "";
+            
+            if(email.trim() !== "") {
+                loggedUser = "@" + email.split('@')[0];
+            } else {
+                loggedUser = "@kashmir_user";
+            }
+            
             document.getElementById('profile-username').innerText = loggedUser;
             document.getElementById('display-user').innerText = loggedUser;
             
-            document.getElementById('auth-page').classList.remove('active');
-            document.getElementById('main-page').classList.add('active');
+            // Force hide auth page and show main page
+            let authPage = document.getElementById('auth-page');
+            authPage.style.display = 'none';
+            authPage.classList.remove('active');
+            
+            let mainPage = document.getElementById('main-page');
+            mainPage.style.display = 'block';
+            mainPage.classList.add('active');
         }
 
-        function openSubPage(id) { document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-        function closeSubPages() { document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); }
-        function openCommentsModal() { document.getElementById('comments-modal').style.display = 'flex'; }
+        function openSubPage(id) { 
+            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); 
+            document.getElementById(id).classList.add('active'); 
+        }
+        function closeSubPages() { 
+            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); 
+        }
+        function openCommentsModal() { 
+            document.getElementById('comments-modal').style.display = 'flex'; 
+        }
 
         function handleVideoSelect(e) {
-            if(e.target.files[0]) {
+            if(e.target.files && e.target.files[0]) {
                 tempVideoUrl = URL.createObjectURL(e.target.files[0]);
                 document.getElementById('upload-modal').style.display = 'flex';
             }
@@ -248,7 +267,7 @@
             document.getElementById('upload-modal').style.display = 'none';
             document.getElementById('up-desc').value = "";
             document.getElementById('up-tags').value = "";
-            alert('Video posted successfully to your profile & FYP! 🍁');
+            alert('Video posted successfully! 🍁');
         }
     </script>
 
