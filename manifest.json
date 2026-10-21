@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Kashmir Reels",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Kashmir Reels",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "description": "TikTok like short video app 🍁"
+}
