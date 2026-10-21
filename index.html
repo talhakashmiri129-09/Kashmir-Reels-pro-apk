@@ -8,14 +8,25 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #000; color: #fff; font-family: sans-serif; overflow: hidden; height: 100vh; }
         
-        /* App Pages Container */
-        .page { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; display: none; background: #000; }
-        .page.active { display: block; }
+        /* Pages */
+        .app-page { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; display: none; background: #000; }
+        .app-page.active { display: block; }
 
-        /* FYP Feed Screen */
-        #fyp-screen { display: flex; flex-direction: column; }
+        /* Auth Screen (Login / Signup) */
+        #auth-page { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 50; background: #000; }
+        .auth-container { width: 100%; max-width: 320px; text-align: center; }
+        .auth-logo { font-size: 70px; margin-bottom: 10px; }
+        .auth-container h1 { color: #ff3b5c; margin-bottom: 25px; font-size: 26px; }
+        .auth-input { width: 100%; padding: 14px; margin-bottom: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 15px; }
+        .auth-btn { width: 100%; padding: 14px; background: #ff3b5c; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 5px; }
+        .auth-switch { margin-top: 15px; font-size: 13px; color: #888; cursor: pointer; }
+
+        /* Main Feed Screen */
+        #main-page { display: none; }
+        #main-page.active { display: block; }
+        
         .header { position: absolute; top: 10px; width: 100%; text-align: center; z-index: 10; font-size: 18px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
-        .header span { color: #ff3b5c; margin: 0 10px; cursor: pointer; pointer-events: auto; }
+        .header span { color: #ff3b5c; margin: 0 10px; pointer-events: auto; cursor: pointer; }
 
         .reels-container { height: 100vh; width: 100vw; overflow-y: scroll; scroll-snap-type: y mandatory; background: #000; }
         .reel-item { height: 100vh; width: 100vw; scroll-snap-align: start; position: relative; display: flex; align-items: center; justify-content: center; background: #111; }
@@ -29,231 +40,215 @@
         .action-btn { background: rgba(0,0,0,0.4); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .action-btn span { font-size: 11px; margin-top: 2px; }
 
-        /* Bottom Navigation Bar */
+        /* Bottom Nav */
         .bottom-nav { position: absolute; bottom: 0; width: 100%; height: 60px; background-color: #000; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #222; z-index: 20; }
         .nav-item { color: #888; font-size: 14px; background: none; border: none; cursor: pointer; text-align: center; }
         .nav-item.active { color: #fff; font-weight: bold; }
         .upload-label { background: #fff; color: #000; width: 45px; height: 30px; border-radius: 8px; font-weight: bold; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        /* Sub-Pages Styling (Search, Profile, Settings, Notifications) */
-        .sub-page-header { display: flex; align-items: center; padding: 15px; background: #111; border-bottom: 1px solid #222; font-size: 18px; font-weight: bold; }
+        /* Sub Pages */
+        .sub-page { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; display: none; z-index: 30; }
+        .sub-page.active { display: block; }
+        .sub-header { display: flex; align-items: center; padding: 15px; background: #111; border-bottom: 1px solid #222; font-size: 18px; font-weight: bold; }
         .back-btn { background: none; border: none; color: #fff; font-size: 20px; margin-right: 15px; cursor: pointer; }
-        .sub-content { padding: 20px; overflow-y: auto; height: calc(100vh - 60px); }
-        
-        /* Forms & Settings */
-        .setting-group { margin-bottom: 20px; background: #111; padding: 15px; border-radius: 10px; }
-        .setting-group label { display: block; margin-bottom: 8px; font-size: 14px; color: #aaa; }
-        .setting-group input, .setting-group select { width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; }
-        
-        /* Modal Popup for Upload & Comments */
+        .sub-body { padding: 20px; overflow-y: auto; height: calc(100vh - 60px); }
+
+        /* Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center; }
-        .modal-content { background: #181818; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; border: 1px solid #333; }
-        .modal-content h3 { margin-bottom: 15px; color: #ff3b5c; }
-        .modal-input { width: 100%; padding: 10px; margin-bottom: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; }
-        .modal-btn { width: 100%; padding: 10px; background: #ff3b5c; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .modal-box { background: #181818; width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; border: 1px solid #333; }
+        .modal-box h3 { margin-bottom: 15px; color: #ff3b5c; }
+        .modal-input { width: 100%; padding: 12px; margin-bottom: 12px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; }
+        .modal-btn { width: 100%; padding: 12px; background: #ff3b5c; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- 1. FYP / TRENDING FRONT PAGE -->
-    <div id="fyp-screen" class="page active">
+    <!-- 1. ACCOUNT AUTH SCREEN -->
+    <div id="auth-page" class="app-page active">
+        <div class="auth-container">
+            <div class="auth-logo">🍁</div>
+            <h1 id="auth-heading">Kashmir Reels</h1>
+            <input type="email" id="user-email" class="auth-input" placeholder="Enter Email or Phone">
+            <input type="password" id="user-pass" class="auth-input" placeholder="Enter Password">
+            <button class="auth-btn" onclick="submitAuth()">Login / Register</button>
+            <p class="auth-switch" onclick="switchAuthMode()" id="auth-switch-text">Don't have an account? Sign Up</p>
+        </div>
+    </div>
+
+    <!-- 2. MAIN APP SCREEN (FYP) -->
+    <div id="main-page" class="app-page">
         <div class="header">
-            <span onclick="openFriendsFeed()">Friends</span> | <span style="color:#fff;">For You 🍁</span>
+            <span onclick="openSubPage('friends-page')">Friends</span> | <span style="color:#fff;">For You 🍁</span>
         </div>
 
         <div class="reels-container" id="feed">
             <div class="reel-item">
                 <video src="https://www.w3schools.com/html/mov_bbb.mp4" loop autoplay muted playsinline></video>
                 <div class="video-info">
-                    <h3>@kashmir_official</h3>
-                    <p>Welcome to Kashmir Reels 🍁 Official Launch! #Kashmir #Trending</p>
+                    <h3 id="display-user">@kashmir_official</h3>
+                    <p>Welcome to Kashmir Reels 🍁 #Kashmir #Trending</p>
                 </div>
                 <div class="right-actions">
-                    <button class="action-btn" onclick="alert('Liked! ❤️')">❤️<span>12K</span></button>
-                    <button class="action-btn" onclick="openComments()">💬<span>340</span></button>
-                    <button class="action-btn" onclick="alert('Video Downloaded successfully!')">⬇️<span>Save</span></button>
-                    <button class="action-btn" onclick="alert('Share link copied! ↗️')">↗️<span>Share</span></button>
+                    <button class="action-btn" onclick="alert('Liked! ❤️')">❤️<span>4.2K</span></button>
+                    <button class="action-btn" onclick="openCommentsModal()">💬<span>120</span></button>
+                    <button class="action-btn" onclick="alert('Video Downloaded!')">⬇️<span>Save</span></button>
+                    <button class="action-btn" onclick="alert('Link Copied!')">↗️<span>Share</span></button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 2. FRIENDS FEED (Left Swipe Triggered) -->
-    <div id="friends-screen" class="page">
-        <div class="sub-page-header">
-            <button class="back-btn" onclick="goBackToFYP()">←</button>
-            Friends Feed 👥
-        </div>
-        <div class="sub-content">
-            <p style="color: #888; text-align: center; margin-top: 50px;">No updates from friends yet. Follow creators to see them here!</p>
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="openSubPage('search-page')">🔍 Search</button>
+            <label class="upload-label" for="videoFile">+</label>
+            <input type="file" id="videoFile" accept="video/*" capture="environment" style="display:none;" onchange="handleVideoSelect(event)">
+            <button class="nav-item" onclick="openSubPage('profile-page')">👤 Profile</button>
         </div>
     </div>
 
-    <!-- 3. SEARCH PAGE (Bottom Left) -->
-    <div id="search-screen" class="page">
-        <div class="sub-page-header">
-            <button class="back-btn" onclick="goBackToFYP()">←</button>
+    <!-- 3. SEARCH PAGE -->
+    <div id="search-page" class="sub-page">
+        <div class="sub-header">
+            <button class="back-btn" onclick="closeSubPages()">←</button>
             Search & Explore 🔍
         </div>
-        <div class="sub-content">
-            <input type="text" class="setting-group input" placeholder="Search users, hashtags, videos..." style="width:100%; padding:12px; background:#111; border:1px solid #333; color:#fff; border-radius:8px;">
-            <p style="margin-top: 20px; color: #aaa; font-size: 14px;">Trending Hashtags: #KashmirReels 🍁 #Viral #Explore</p>
+        <div class="sub-body">
+            <input type="text" class="modal-input" placeholder="Search accounts, hashtags...">
+            <p style="color:#888; font-size:14px; margin-top:15px;">Trending: #KashmirReels 🍁 #Poonch #Muzaffarabad</p>
         </div>
     </div>
 
-    <!-- 4. USER PROFILE PAGE (Bottom Right) -->
-    <div id="profile-screen" class="page">
-        <div class="sub-page-header">
-            <button class="back-btn" onclick="goBackToFYP()">←</button>
-            My Profile 👤 <span style="margin-left: auto; font-size: 14px; cursor: pointer; color: #ff3b5c;" onclick="openSettings()">⚙️ Settings</span>
+    <!-- 4. PROFILE PAGE -->
+    <div id="profile-page" class="sub-page">
+        <div class="sub-header">
+            <button class="back-btn" onclick="closeSubPages()">←</button>
+            My Profile 👤 <span style="margin-left:auto; font-size:14px; cursor:pointer; color:#ff3b5c;" onclick="openSubPage('settings-page')">⚙️ Settings</span>
         </div>
-        <div class="sub-content" style="text-align: center;">
-            <div style="font-size: 50px; margin-bottom: 10px;">🍁</div>
-            <h2>@talha_kashmir</h2>
-            <p style="color: #888; font-size: 13px; margin-top: 5px;">Creating Kashmir Reels | Official Creator</p>
-            <div style="display: flex; justify-content: center; gap: 30px; margin: 20px 0;">
-                <div><strong>150</strong><br><span style="color:#888; font-size:12px;">Following</span></div>
-                <div><strong>4.5K</strong><br><span style="color:#888; font-size:12px;">Followers</span></div>
-                <div><strong>25.2K</strong><br><span style="color:#888; font-size:12px;">Likes</span></div>
-            </div>
-            <button class="setting-group input" style="background:#ff3b5c; color:#fff; font-weight:bold; border:none; padding:10px; border-radius:6px; cursor:pointer;" onclick="openNotifications()">🔔 Notifications (3 New)</button>
+        <div class="sub-body" style="text-align:center;">
+            <div style="font-size:60px; margin-bottom:10px;">🍁</div>
+            <h2 id="profile-username">@user</h2>
+            <p style="color:#888; font-size:13px; margin-top:5px;">Official Kashmir Reels Creator</p>
+            <button class="modal-btn" style="margin-top:20px; background:#222;" onclick="openSubPage('notif-page')">🔔 Notifications</button>
         </div>
     </div>
 
-    <!-- 5. ACCOUNT SETTINGS PAGE -->
-    <div id="settings-screen" class="page">
-        <div class="sub-page-header">
-            <button class="back-btn" onclick="openProfile()">←</button>
+    <!-- 5. SETTINGS PAGE -->
+    <div id="settings-page" class="sub-page">
+        <div class="sub-header">
+            <button class="back-btn" onclick="openSubPage('profile-page')">←</button>
             Account Settings ⚙️
         </div>
-        <div class="sub-content">
-            <div class="setting-group">
-                <label>Account Privacy</label>
-                <select id="privacySelect">
-                    <option value="public">Public Account (Everyone can view & duet)</option>
-                    <option value="private">Private Account (Only approved followers)</option>
-                </select>
+        <div class="sub-body">
+            <div style="background:#111; padding:15px; border-radius:8px; margin-bottom:15px;">
+                <label style="display:block; margin-bottom:8px; color:#aaa; font-size:14px;">Account Privacy</label>
+                <select class="modal-input"><option>Public Account</option><option>Private Account</option></select>
             </div>
-            <div class="setting-group">
-                <label>Push Notifications</label>
-                <select>
-                    <option>Enabled (Likes, Comments, Followers)</option>
-                    <option>Disabled</option>
-                </select>
-            </div>
-            <button class="modal-btn" onclick="alert('Settings saved successfully!'); openProfile();">Save Changes</button>
+            <button class="modal-btn" onclick="alert('Settings saved!'); openSubPage('profile-page');">Save</button>
         </div>
     </div>
 
-    <!-- 6. NOTIFICATIONS BOX -->
-    <div id="notifications-screen" class="page">
-        <div class="sub-page-header">
-            <button class="back-btn" onclick="openProfile()">←</button>
+    <!-- 6. NOTIFICATIONS PAGE -->
+    <div id="notif-page" class="sub-page">
+        <div class="sub-header">
+            <button class="back-btn" onclick="openSubPage('profile-page')">←</button>
             Notifications 🔔
         </div>
-        <div class="sub-content">
-            <div style="padding: 12px; background: #111; margin-bottom: 10px; border-radius: 8px;">
-                <p style="font-size: 14px;">❤️ <strong>Ali Khan</strong> liked your video.</p>
-                <span style="font-size: 11px; color: #888;">2 minutes ago</span>
-            </div>
-            <div style="padding: 12px; background: #111; margin-bottom: 10px; border-radius: 8px;">
-                <p style="font-size: 14px;">💬 <strong>Kashmir_Boy</strong> commented: "Amazing view! 🍁"</p>
-                <span style="font-size: 11px; color: #888;">1 hour ago</span>
-            </div>
-            <div style="padding: 12px; background: #111; margin-bottom: 10px; border-radius: 8px;">
-                <p style="font-size: 14px;">👤 <strong>Sara Ahmed</strong> started following you.</p>
-                <span style="font-size: 11px; color: #888;">3 hours ago</span>
-            </div>
+        <div class="sub-body">
+            <p style="padding:12px; background:#111; border-radius:6px; margin-bottom:10px; font-size:14px;">❤️ Ali liked your video.</p>
+            <p style="padding:12px; background:#111; border-radius:6px; font-size:14px;">👤 Sara started following you.</p>
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION BAR -->
-    <div class="bottom-nav">
-        <button class="nav-item" onclick="openSearch()">🔍 Search</button>
-        <label class="upload-label" for="videoUpload">+</label>
-        <input type="file" id="videoUpload" accept="video/*" capture="environment" style="display: none;" onchange="openUploadModal(event)">
-        <button class="nav-item" onclick="openProfile()">👤 Profile</button>
+    <!-- 7. FRIENDS FEED -->
+    <div id="friends-page" class="sub-page">
+        <div class="sub-header">
+            <button class="back-btn" onclick="closeSubPages()">←</button>
+            Friends Feed 👥
+        </div>
+        <div class="sub-body">
+            <p style="color:#888; text-align:center; margin-top:40px;">No updates from friends yet.</p>
+        </div>
     </div>
 
-    <!-- UPLOAD DESCRIPTION MODAL -->
+    <!-- UPLOAD MODAL -->
     <div id="upload-modal" class="modal">
-        <div class="modal-content">
-            <h3>Upload Kashmir Reel 🍁</h3>
-            <p id="selected-file-name" style="font-size: 12px; color: #aaa; margin-bottom: 10px;"></p>
-            <input type="text" id="video-desc" class="modal-input" placeholder="Write a description...">
-            <input type="text" id="video-tags" class="modal-input" placeholder="#Hashtags (#Kashmir #Viral)">
+        <div class="modal-box">
+            <h3>Upload Reel 🍁</h3>
+            <input type="text" id="up-desc" class="modal-input" placeholder="Write description...">
+            <input type="text" id="up-tags" class="modal-input" placeholder="#Hashtags">
             <button class="modal-btn" onclick="publishVideo()">Post to FYP</button>
         </div>
     </div>
 
     <!-- COMMENTS MODAL -->
-    <div id="comments-modal" class="modal" onclick="closeComments(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h3>Comments (340)</h3>
-            <div style="max-height: 150px; overflow-y: auto; margin-bottom: 10px; font-size: 13px;">
-                <p><strong>Areeba:</strong> Bohat achi app hai! 🍁</p>
-                <p style="margin-top:8px;"><strong>Zain:</strong> Kashmir Zindabad! 🚀</p>
+    <div id="comments-modal" class="modal" onclick="document.getElementById('comments-modal').style.display='none'">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <h3>Comments</h3>
+            <div style="max-height:120px; overflow-y:auto; margin-bottom:10px; font-size:13px;">
+                <p><strong>Zain:</strong> Awesome app! 🍁</p>
             </div>
-            <input type="text" class="modal-input" placeholder="Add a comment...">
-            <button class="modal-btn" onclick="alert('Comment posted!'); closeComments();">Post</button>
+            <input type="text" class="modal-input" placeholder="Add comment...">
+            <button class="modal-btn" onclick="document.getElementById('comments-modal').style.display='none'; alert('Comment posted!');">Post</button>
         </div>
     </div>
 
     <script>
-        let pendingVideoUrl = "";
-        let pendingFileName = "";
+        let isSignup = true;
+        let loggedUser = "@user";
+        let tempVideoUrl = "";
 
-        function switchPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+        function switchAuthMode() {
+            isSignup = !isSignup;
+            document.getElementById('auth-heading').innerText = isSignup ? "Kashmir Reels" : "Login to Account";
+            document.getElementById('auth-switch-text').innerText = isSignup ? "Already have an account? Login" : "Don't have an account? Sign Up";
         }
 
-        function goBackToFYP() { switchPage('fyp-screen'); }
-        function openSearch() { switchPage('search-screen'); }
-        function openProfile() { switchPage('profile-screen'); }
-        function openFriendsFeed() { switchPage('friends-screen'); }
-        function openSettings() { switchPage('settings-screen'); }
-        function openNotifications() { switchPage('notifications-screen'); }
+        function submitAuth() {
+            let email = document.getElementById('user-email').value;
+            if(!email) { alert('Please enter email or phone!'); return; }
+            loggedUser = "@" + email.split('@')[0];
+            document.getElementById('profile-username').innerText = loggedUser;
+            document.getElementById('display-user').innerText = loggedUser;
+            
+            document.getElementById('auth-page').classList.remove('active');
+            document.getElementById('main-page').classList.add('active');
+        }
 
-        function openComments() { document.getElementById('comments-modal').style.display = 'flex'; }
-        function closeComments(e) { document.getElementById('comments-modal').style.display = 'none'; }
+        function openSubPage(id) { document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+        function closeSubPages() { document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active')); }
+        function openCommentsModal() { document.getElementById('comments-modal').style.display = 'flex'; }
 
-        function openUploadModal(event) {
-            const file = event.target.files[0];
-            if (file) {
-                pendingVideoUrl = URL.createObjectURL(file);
-                pendingFileName = file.name;
-                document.getElementById('selected-file-name').innerText = "Selected: " + file.name;
+        function handleVideoSelect(e) {
+            if(e.target.files[0]) {
+                tempVideoUrl = URL.createObjectURL(e.target.files[0]);
                 document.getElementById('upload-modal').style.display = 'flex';
             }
         }
 
         function publishVideo() {
-            const desc = document.getElementById('video-desc').value || "My Kashmir Reel 🍁";
-            const tags = document.getElementById('video-tags').value || "#KashmirReels";
+            let desc = document.getElementById('up-desc').value || "My Reel 🍁";
+            let tags = document.getElementById('up-tags').value || "#Kashmir";
+            let feed = document.getElementById('feed');
             
-            const feed = document.getElementById('feed');
-            const newItem = document.createElement('div');
-            newItem.className = 'reel-item';
-            newItem.innerHTML = `
-                <video src="${pendingVideoUrl}" loop autoplay muted playsinline></video>
+            let item = document.createElement('div');
+            item.className = 'reel-item';
+            item.innerHTML = `
+                <video src="${tempVideoUrl}" loop autoplay muted playsinline></video>
                 <div class="video-info">
-                    <h3>@talha_kashmir</h3>
+                    <h3>${loggedUser}</h3>
                     <p>${desc} ${tags}</p>
                 </div>
                 <div class="right-actions">
-                    <button class="action-btn" onclick="alert('Liked! ❤️')">❤️<span>1</span></button>
-                    <button class="action-btn" onclick="openComments()">💬<span>0</span></button>
-                    <button class="action-btn" onclick="alert('Video Downloaded!')">⬇️<span>Save</span></button>
-                    <button class="action-btn" onclick="alert('Share link copied!')">↗️<span>Share</span></button>
+                    <button class="action-btn" onclick="alert('Liked!')">❤️<span>1</span></button>
+                    <button class="action-btn" onclick="openCommentsModal()">💬<span>0</span></button>
+                    <button class="action-btn" onclick="alert('Saved!')">⬇️<span>Save</span></button>
+                    <button class="action-btn" onclick="alert('Shared!')">↗️<span>Share</span></button>
                 </div>
             `;
-            feed.prepend(newItem);
+            feed.prepend(item);
             document.getElementById('upload-modal').style.display = 'none';
-            document.getElementById('video-desc').value = "";
-            document.getElementById('video-tags').value = "";
-            switchPage('fyp-screen');
-            alert('Your video with description & hashtags is successfully posted to Kashmir Reels FYP! 🍁');
+            document.getElementById('up-desc').value = "";
+            document.getElementById('up-tags').value = "";
+            alert('Video posted successfully to your profile & FYP! 🍁');
         }
     </script>
 
